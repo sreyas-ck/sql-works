@@ -1,0 +1,223 @@
+MariaDB [sqlworks]> desc items
+    -> ;
++----------------+---------------+------+-----+---------+----------------+
+| Field          | Type          | Null | Key | Default | Extra          |
++----------------+---------------+------+-----+---------+----------------+
+| id             | int(11)       | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(100)  | NO   |     | NULL    |                |
+| purchase_price | decimal(10,5) | YES  |     | NULL    |                |
+| selling_price  | decimal(10,5) | YES  |     | NULL    |                |
+| category_name  | varchar(100)  | YES  |     | NULL    |                |
++----------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.055 sec)
+
+MariaDB [sqlworks]> INSERT INTO items (id, name, purchase_price, selling_price, category_name) VALUES
+    -> (1, 'Keyboard', 10.00, 15.00, 'Peripherals'),
+    -> (2, 'Mouse', 5.00, 8.00, 'Peripherals'),
+    -> (3, 'Monitor 24"', 80.00, 110.00, 'Displays'),
+    -> (4, 'Laptop Bag', 12.00, 20.00, 'Accessories'),
+    -> (5, 'USB Cable', 1.00, 3.00, 'Accessories'),
+    -> (6, 'Smartphone', 200.00, 260.00, 'Electronics'),
+    -> (7, 'Headphones', 15.00, 25.00, 'Audio'),
+    -> (8, 'Webcam', 18.00, 30.00, 'Peripherals'),
+    -> (9, 'Desk Lamp', 8.00, 12.00, 'Office'),
+    -> (10, 'HDMI Adapter', 3.00, 7.00, 'Accessories'),
+    -> (11, 'Graphics Tablet', 40.00, 60.00, 'Art'),
+    -> (12, 'Bluetooth Speaker', 20.00, 35.00, 'Audio'),
+    -> (13, 'External HDD', 45.00, 65.00, 'Storage'),
+    -> (14, 'SSD Drive', 30.00, 50.00, 'Storage'),
+    -> (15, 'Router', 25.00, 40.00, 'Networking'),
+    -> (16, 'Microphone', 16.00, 28.00, 'Audio'),
+    -> (17, 'Tablet', 120.00, 160.00, 'Electronics'),
+    -> (18, 'Printer Ink', 5.00, 10.00, 'Office'),
+    -> (19, 'Chair Cushion', 4.00, 8.00, 'Office'),
+    -> (20, 'USB Hub', 6.00, 12.00, 'Accessories');
+Query OK, 20 rows affected (0.039 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+MariaDB [sqlworks]> desc stock
+    -> ;
++------------------+---------------+------+-----+---------------------+----------------+
+| Field            | Type          | Null | Key | Default             | Extra          |
++------------------+---------------+------+-----+---------------------+----------------+
+| stock_id         | int(11)       | NO   | PRI | NULL                | auto_increment |
+| item_id          | int(11)       | NO   | MUL | NULL                |                |
+| current_quantity | decimal(10,5) | NO   |     | NULL                |                |
+| last_update      | datetime      | YES  |     | current_timestamp() |                |
++------------------+---------------+------+-----+---------------------+----------------+
+4 rows in set (0.018 sec)
+
+MariaDB [sqlworks]> desc transactions;
++------------------+------------------+------+-----+---------------------+----------------+
+| Field            | Type             | Null | Key | Default             | Extra          |
++------------------+------------------+------+-----+---------------------+----------------+
+| transaction_id   | int(11)          | NO   | PRI | NULL                | auto_increment |
+| item_id          | int(11)          | NO   | MUL | NULL                |                |
+| quantity         | decimal(10,5)    | NO   |     | NULL                |                |
+| transaction_type | enum('IN','OUT') | NO   |     | NULL                |                |
+| transaction_date | datetime         | YES  |     | current_timestamp() |                |
++------------------+------------------+------+-----+---------------------+----------------+
+5 rows in set (0.043 sec)
+
+MariaDB [sqlworks]> INSERT INTO stock (item_id, current_quantity, last_update) VALUES
+    -> (1, 50.00000, NOW()),
+    -> (2, 80.00000, NOW()),
+    -> (3, 30.00000, NOW()),
+    -> (4, 12.00000, NOW()),
+    -> (5, 200.00000, NOW()),
+    -> (6, 25.00000, NOW()),
+    -> (7, 40.00000, NOW()),
+    -> (8, 15.00000, NOW()),
+    -> (9, 60.00000, NOW()),
+    -> (10, 90.00000, NOW()),
+    -> (11, 18.00000, NOW()),
+    -> (12, 33.00000, NOW()),
+    -> (13, 22.00000, NOW()),
+    -> (14, 10.00000, NOW()),
+    -> (15, 17.00000, NOW()),
+    -> (16, 29.00000, NOW()),
+    -> (17, 14.00000, NOW()),
+    -> (18, 100.00000, NOW()),
+    -> (19, 45.00000, NOW()),
+    -> (20, 72.00000, NOW());
+Query OK, 20 rows affected (0.044 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+MariaDB [sqlworks]> INSERT INTO transactions (item_id, quantity, transaction_type, transaction_date) VALUES
+    -> (1, 10.00000, 'IN', NOW()),
+    -> (2, 5.00000, 'OUT', NOW()),
+    -> (3, 8.00000, 'IN', NOW()),
+    -> (4, 2.00000, 'OUT', NOW()),
+    -> (5, 40.00000, 'IN', NOW()),
+    -> (6, 3.00000, 'OUT', NOW()),
+    -> (7, 12.00000, 'IN', NOW()),
+    -> (8, 1.00000, 'OUT', NOW()),
+    -> (9, 20.00000, 'IN', NOW()),
+    -> (10, 10.00000, 'OUT', NOW()),
+    -> (11, 6.00000, 'IN', NOW()),
+    -> (12, 3.00000, 'OUT', NOW()),
+    -> (13, 5.00000, 'IN', NOW()),
+    -> (14, 4.00000, 'OUT', NOW()),
+    -> (15, 7.00000, 'IN', NOW()),
+    -> (16, 2.00000, 'OUT', NOW()),
+    -> (17, 5.00000, 'IN', NOW()),
+    -> (18, 30.00000, 'IN', NOW()),
+    -> (19, 6.00000, 'OUT', NOW()),
+    -> (20, 15.00000, 'IN', NOW());
+Query OK, 20 rows affected (0.008 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+MariaDB [sqlworks]> show tables;
++--------------------+
+| Tables_in_sqlworks |
++--------------------+
+| items              |
+| stock              |
+| transactions       |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [sqlworks]> desc items;
++----------------+---------------+------+-----+---------+----------------+
+| Field          | Type          | Null | Key | Default | Extra          |
++----------------+---------------+------+-----+---------+----------------+
+| id             | int(11)       | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(100)  | NO   |     | NULL    |                |
+| purchase_price | decimal(10,5) | YES  |     | NULL    |                |
+| selling_price  | decimal(10,5) | YES  |     | NULL    |                |
+| category_name  | varchar(100)  | YES  |     | NULL    |                |
++----------------+---------------+------+-----+---------+----------------+
+5 rows in set (0.042 sec)
+
+MariaDB [sqlworks]> select *from items
+    -> ;
++----+-------------------+----------------+---------------+---------------+
+| id | name              | purchase_price | selling_price | category_name |
++----+-------------------+----------------+---------------+---------------+
+|  1 | Keyboard          |       10.00000 |      15.00000 | Peripherals   |
+|  2 | Mouse             |        5.00000 |       8.00000 | Peripherals   |
+|  3 | Monitor 24"       |       80.00000 |     110.00000 | Displays      |
+|  4 | Laptop Bag        |       12.00000 |      20.00000 | Accessories   |
+|  5 | USB Cable         |        1.00000 |       3.00000 | Accessories   |
+|  6 | Smartphone        |      200.00000 |     260.00000 | Electronics   |
+|  7 | Headphones        |       15.00000 |      25.00000 | Audio         |
+|  8 | Webcam            |       18.00000 |      30.00000 | Peripherals   |
+|  9 | Desk Lamp         |        8.00000 |      12.00000 | Office        |
+| 10 | HDMI Adapter      |        3.00000 |       7.00000 | Accessories   |
+| 11 | Graphics Tablet   |       40.00000 |      60.00000 | Art           |
+| 12 | Bluetooth Speaker |       20.00000 |      35.00000 | Audio         |
+| 13 | External HDD      |       45.00000 |      65.00000 | Storage       |
+| 14 | SSD Drive         |       30.00000 |      50.00000 | Storage       |
+| 15 | Router            |       25.00000 |      40.00000 | Networking    |
+| 16 | Microphone        |       16.00000 |      28.00000 | Audio         |
+| 17 | Tablet            |      120.00000 |     160.00000 | Electronics   |
+| 18 | Printer Ink       |        5.00000 |      10.00000 | Office        |
+| 19 | Chair Cushion     |        4.00000 |       8.00000 | Office        |
+| 20 | USB Hub           |        6.00000 |      12.00000 | Accessories   |
++----+-------------------+----------------+---------------+---------------+
+20 rows in set (0.000 sec)
+
+MariaDB [sqlworks]> select *from stock;
++----------+---------+------------------+---------------------+
+| stock_id | item_id | current_quantity | last_update         |
++----------+---------+------------------+---------------------+
+|        1 |       1 |         50.00000 | 2025-12-03 11:18:29 |
+|        2 |       2 |         80.00000 | 2025-12-03 11:18:29 |
+|        3 |       3 |         30.00000 | 2025-12-03 11:18:29 |
+|        4 |       4 |         12.00000 | 2025-12-03 11:18:29 |
+|        5 |       5 |        200.00000 | 2025-12-03 11:18:29 |
+|        6 |       6 |         25.00000 | 2025-12-03 11:18:29 |
+|        7 |       7 |         40.00000 | 2025-12-03 11:18:29 |
+|        8 |       8 |         15.00000 | 2025-12-03 11:18:29 |
+|        9 |       9 |         60.00000 | 2025-12-03 11:18:29 |
+|       10 |      10 |         90.00000 | 2025-12-03 11:18:29 |
+|       11 |      11 |         18.00000 | 2025-12-03 11:18:29 |
+|       12 |      12 |         33.00000 | 2025-12-03 11:18:29 |
+|       13 |      13 |         22.00000 | 2025-12-03 11:18:29 |
+|       14 |      14 |         10.00000 | 2025-12-03 11:18:29 |
+|       15 |      15 |         17.00000 | 2025-12-03 11:18:29 |
+|       16 |      16 |         29.00000 | 2025-12-03 11:18:29 |
+|       17 |      17 |         14.00000 | 2025-12-03 11:18:29 |
+|       18 |      18 |        100.00000 | 2025-12-03 11:18:29 |
+|       19 |      19 |         45.00000 | 2025-12-03 11:18:29 |
+|       20 |      20 |         72.00000 | 2025-12-03 11:18:29 |
++----------+---------+------------------+---------------------+
+20 rows in set (0.001 sec)
+
+MariaDB [sqlworks]> select*from transactions
+    -> ;
++----------------+---------+----------+------------------+---------------------+
+| transaction_id | item_id | quantity | transaction_type | transaction_date    |
++----------------+---------+----------+------------------+---------------------+
+|              1 |       1 | 10.00000 | IN               | 2025-12-03 11:18:45 |
+|              2 |       2 |  5.00000 | OUT              | 2025-12-03 11:18:45 |
+|              3 |       3 |  8.00000 | IN               | 2025-12-03 11:18:45 |
+|              4 |       4 |  2.00000 | OUT              | 2025-12-03 11:18:45 |
+|              5 |       5 | 40.00000 | IN               | 2025-12-03 11:18:45 |
+|              6 |       6 |  3.00000 | OUT              | 2025-12-03 11:18:45 |
+|              7 |       7 | 12.00000 | IN               | 2025-12-03 11:18:45 |
+|              8 |       8 |  1.00000 | OUT              | 2025-12-03 11:18:45 |
+|              9 |       9 | 20.00000 | IN               | 2025-12-03 11:18:45 |
+|             10 |      10 | 10.00000 | OUT              | 2025-12-03 11:18:45 |
+|             11 |      11 |  6.00000 | IN               | 2025-12-03 11:18:45 |
+|             12 |      12 |  3.00000 | OUT              | 2025-12-03 11:18:45 |
+|             13 |      13 |  5.00000 | IN               | 2025-12-03 11:18:45 |
+|             14 |      14 |  4.00000 | OUT              | 2025-12-03 11:18:45 |
+|             15 |      15 |  7.00000 | IN               | 2025-12-03 11:18:45 |
+|             16 |      16 |  2.00000 | OUT              | 2025-12-03 11:18:45 |
+|             17 |      17 |  5.00000 | IN               | 2025-12-03 11:18:45 |
+|             18 |      18 | 30.00000 | IN               | 2025-12-03 11:18:45 |
+|             19 |      19 |  6.00000 | OUT              | 2025-12-03 11:18:45 |
+|             20 |      20 | 15.00000 | IN               | 2025-12-03 11:18:45 |
++----------------+---------+----------+------------------+---------------------+
+20 rows in set (0.000 sec)
+
+MariaDB [sqlworks]> SELECT *
+    -> FROM items
+    -> WHERE selling_price > 1000;
+Empty set (0.001 sec)
+
+MariaDB [sqlworks]> Bye
+
+2pac@SREYAS c:\xampp
+#
